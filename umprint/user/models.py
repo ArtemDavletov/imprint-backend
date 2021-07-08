@@ -1,30 +1,14 @@
-import datetime
 import uuid
 
-from sqlalchemy import Column, String, DateTime
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from django.db import models
 
 
-# class Account(Base):
-#     __tablename__ = 'account'
-#     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#     login = Column(String)
-#     password = Column(String, unique=True)
+class UserProfile(models.Model):
+    _id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    login = models.CharField(max_length=20, blank=True, unique=True, verbose_name='Логин')
+    first_name = models.CharField(max_length=20, blank=True, unique=True, verbose_name='Имя')
+    second_name = models.CharField(max_length=20, blank=True, unique=True, verbose_name='Фамилия')
+    email = models.EmailField(max_length=20, blank=True, unique=True, verbose_name='Почта')
 
-
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    login = Column(String)
-    name = Column(String)
-    creation_date = Column(DateTime, default=datetime.datetime.now())
-
-
-# class UserGroupRelation(Base):
-#     __tablename__ = 'user_group_relation'
-#     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-#     user_id = Column(Integer, ForeignKey('user.id'))
-
+    def __unicode__(self):
+        return self.login
