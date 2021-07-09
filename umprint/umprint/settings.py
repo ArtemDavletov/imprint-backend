@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-&eo-v8$c^=ya5s*=u)&%9vj*=tac7$*f_%1(o$bork^j@9m&j9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'localhost;', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0']
 
 # Application definition
 
@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'user',
-    'rest_framework_simplejwt'
-
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +79,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        # 'HOST': 'pgdb',
-        'HOST': 'localhost',
+        'HOST': 'pgdb',
+        # 'HOST': 'localhost',
         'PORT': '5432',
     }
 }
