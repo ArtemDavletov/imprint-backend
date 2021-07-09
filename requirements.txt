@@ -1,5 +1,6 @@
 django == 3.2.5
-psycopg2asgiref==3.4.1
+psycopg2
+asgiref==3.4.1
 Django==3.2.5
 django-filter==2.4.0
 djangorestframework==3.12.4
