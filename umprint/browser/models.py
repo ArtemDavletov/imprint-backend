@@ -10,7 +10,7 @@ class BrowserEngine(models.Model):
         CHROMIUM = 'CHROMIUM'
         FIREFOX = 'FIREFOX'
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True, editable=False)
     engine_type = models.CharField(
         max_length=10,
         choices=BrowserEngineChoices.choices,
@@ -19,19 +19,11 @@ class BrowserEngine(models.Model):
 
 
 class BrowserType(models.Model):
-    class BrowserChoices(models.TextChoices):
-        CHROME = 'CHROME'
-        MAZILLA = 'MAZILLA'
-        SAFARI = 'SAFARI'
-        OPERA = 'OPERA'
-        TOR = 'TOR'
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=300, default='Chrome', verbose_name='Заголовок', blank=False)
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    engine_type = models.CharField(
-        max_length=10,
-        choices=BrowserChoices.choices,
-        default=BrowserChoices.CHROME,
-    )
+    def __unicode__(self):
+        return self.name
 
 
 class RulesType(models.Model):
@@ -40,21 +32,36 @@ class RulesType(models.Model):
         EDIT = 'EDIT'
         ADMIN = 'ADMIN'
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True, editable=False)
     engine_type = models.CharField(
         max_length=10,
         choices=RulesChoices.choices,
         default=RulesChoices.VIEW,
     )
 
+    def __unicode__(self):
+        return self.engine_type
+
+
+class Folder(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200, blank=True, verbose_name='Имя')
+    description = models.TextField(max_length=500, blank=True, verbose_name='Описание')
+
+    def __unicode__(self):
+        return f'{self.name=}'
+
 
 class InstanceBrowser(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    name = models.CharField(max_length=200, blank=True, default='Browser name', verbose_name='Имя')
+    description = models.TextField(max_length=500, blank=True, verbose_name='Описание')
     browser_type = models.ForeignKey(BrowserType, on_delete=models.CASCADE, related_name='browser_type')
-    browser_engine = models.ForeignKey(BrowserType, on_delete=models.CASCADE, related_name='browser_engine')
+    browser_engine = models.ForeignKey(BrowserEngine, on_delete=models.CASCADE, related_name='browser_engine')
 
-    folder_name = models.CharField(max_length=20, blank=True, verbose_name='Название папки')
+    folder_name = models.ForeignKey(Folder, on_delete=models.CASCADE, blank=True, null=True,
+                                    verbose_name='Название папки')
 
     def __unicode__(self):
         return self.name

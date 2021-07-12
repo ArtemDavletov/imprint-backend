@@ -1,37 +1,22 @@
-import json
-
-from django.http import QueryDict
-from rest_framework import status
+from auth.serializers import AuthTokenObtainPairSerializer
+from auth.serializers import RegisterSerializer, UserSerializer
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from user.models import UserProfile
 
 
-class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
+class RegisterApi(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
 
-        request = self.context["request"]
+    def post(self, request, *args, **kwargs) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
 
-        request_data: QueryDict = request.data
-        username: str = request_data.get("username")
-        password: str = request_data.get("password")
-
-        user = UserProfile.objects.get(login=username)
-
-        if user is None:
-            user = UserProfile.objects.get(email=username)
-
-            if user is None:
-                return super().validate(attrs=attrs)
-
-        if user.password == password:
-            refresh: RefreshToken = super().get_token(user)
-
-            return dict(refresh=str(refresh), access=str(refresh.access_token))
-
-        return super().validate(attrs=attrs)
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "message": "User Created Successfully. Now perform Login to get your token",
+        })
 
 
 class AuthTokenObtainPairView(TokenObtainPairView):
