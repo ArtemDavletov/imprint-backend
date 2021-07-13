@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'rest_framework_simplejwt',
-    'browser'
+    'browser',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'umprint.urls'
@@ -70,6 +72,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'umprint.wsgi.application'
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
