@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import QueryDict
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -30,16 +31,13 @@ class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
         request = self.context["request"]
 
         request_data: QueryDict = request.data
-        username: str = request_data.get("username")
+        username: str = request_data.get("login")
         password: str = request_data.get("password")
 
-        user = UserProfile.objects.get(login=username)
-
-        if user is None:
-            user = UserProfile.objects.get(email=username)
-
-            if user is None:
-                return super().validate(attrs=attrs)
+        try:
+            user = UserProfile.objects.get(Q(login=username) | Q(email=username))
+        except:
+            return super().validate(attrs=attrs)
 
         if user.password == password:
             refresh: RefreshToken = super().get_token(user)

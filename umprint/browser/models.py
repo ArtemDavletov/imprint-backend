@@ -26,21 +26,21 @@ class BrowserType(models.Model):
         return self.name
 
 
-class RulesType(models.Model):
-    class RulesChoices(models.TextChoices):
-        VIEW = 'VIEW'
-        EDIT = 'EDIT'
-        ADMIN = 'ADMIN'
-
-    id = models.AutoField(primary_key=True, editable=False)
-    engine_type = models.CharField(
-        max_length=10,
-        choices=RulesChoices.choices,
-        default=RulesChoices.VIEW,
-    )
-
-    def __unicode__(self):
-        return self.engine_type
+# class RulesType(models.Model):
+#     class RulesChoices(models.TextChoices):
+#         VIEW = 'VIEW'
+#         EDIT = 'EDIT'
+#         ADMIN = 'ADMIN'
+#
+#     id = models.AutoField(primary_key=True, editable=False)
+#     rule_type = models.CharField(
+#         max_length=10,
+#         choices=RulesChoices.choices,
+#         default=RulesChoices.VIEW,
+#     )
+#
+#     def __unicode__(self):
+#         return self.rule_type
 
 
 class Folder(models.Model):
@@ -66,14 +66,36 @@ class InstanceBrowser(models.Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def type(self):
+        return self.browser_type.name
+
+    @property
+    def engine(self):
+        return self.browser_engine.name
+
+    @property
+    def foldername(self):
+        return self.folder_name.name
+
 
 class UserProfileInstanceBrowserRelation(models.Model):
+    ACCESS_TO_EDIT = ("ADMIN", "EDIT")
+
+    class RulesChoices(models.TextChoices):
+        VIEW = 'VIEW'
+        EDIT = 'EDIT'
+        ADMIN = 'ADMIN'
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user')
     browser = models.ForeignKey(InstanceBrowser, on_delete=models.CASCADE, related_name='browser')
-
-    rule_type = models.ForeignKey(RulesType, on_delete=models.CASCADE, related_name='rule')
     is_creator = models.BooleanField(max_length=20, blank=True, verbose_name='Является создателем')
+    rule_type = models.CharField(
+        max_length=10,
+        choices=RulesChoices.choices,
+        default=RulesChoices.VIEW,
+    )
 
     def __unicode__(self):
         return f"Relation with browser for user={self.user.login}"
