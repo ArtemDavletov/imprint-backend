@@ -111,7 +111,7 @@ def folder_view(request, folder_uuid: UUID) -> Response:
     return Response(**response)
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 @permission_classes(
     [
         IsAuthenticated,
