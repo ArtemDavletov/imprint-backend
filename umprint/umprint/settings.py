@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "browser",
     "corsheaders",
+    "drf_yasg"
 ]
 
 MIDDLEWARE = [
