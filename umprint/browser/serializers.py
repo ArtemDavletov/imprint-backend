@@ -1,25 +1,18 @@
-from browser.models import BrowserType, BrowserEngine, Folder
 from browser.models import InstanceBrowser
 from rest_framework import serializers
 
 
 class CreateBrowserInstanceSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=20)
+    name = serializers.CharField(max_length=20, required=True)
+    description = serializers.CharField(max_length=500, required=False)
 
-    browser_type = serializers.CharField(max_length=10)
-    browser_engine = serializers.CharField(max_length=10)
+    browser_type = serializers.CharField(max_length=10, required=True)
+    browser_engine = serializers.CharField(max_length=10, required=True)
 
-    folder_name = serializers.CharField(max_length=10)
+    folder_id = serializers.UUIDField(required=False)
 
-    def validate(self, attrs):
-        data = {
-            "name": attrs.get("name"),
-            "browser_type": BrowserType.objects.get(name=attrs.get("browser_type")),
-            "browser_engine":
-                BrowserEngine.objects.get(engine_type=attrs.get("browser_engine")),
-            "folder_name": Folder.objects.get_or_create(name=attrs.get("folder_name"))[0],
-        }
-        return data
+    class Meta:
+        model = InstanceBrowser
 
     def create(self, *args, **kwargs) -> InstanceBrowser:
         return InstanceBrowser.objects.create(**self.validated_data)
@@ -29,24 +22,26 @@ class CreateBrowserInstanceSerializer(serializers.Serializer):
 
 
 class BrowserInstanceSerializer(serializers.Serializer):
+    id = serializers.UUIDField(required=True)
     name = serializers.CharField(max_length=20)
     description = serializers.CharField(max_length=500)
 
     type = serializers.ReadOnlyField()
     engine = serializers.ReadOnlyField()
-    foldername = serializers.ReadOnlyField()
+
+    # Folder fields
+    folder_uuid = serializers.ReadOnlyField()
+    folder_name = serializers.ReadOnlyField()
+    folder_description = serializers.ReadOnlyField()
 
     class Meta:
         model = InstanceBrowser
 
 
-class UpdateBrowserInstanceSerializer(serializers.Serializer):
+class UpdateBrowserInstanceSerializer(CreateBrowserInstanceSerializer):
     name = serializers.CharField(max_length=20, required=False)
-    description = serializers.CharField(max_length=500, required=False)
 
-    type = serializers.ReadOnlyField(required=False)
-    engine = serializers.ReadOnlyField(required=False)
-    foldername = serializers.ReadOnlyField(required=False)
+    browser_type = serializers.CharField(required=False)
+    browser_engine = serializers.CharField(required=False)
 
-    class Meta:
-        model = InstanceBrowser
+    folder_id = serializers.UUIDField(required=False)

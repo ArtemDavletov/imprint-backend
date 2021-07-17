@@ -3,26 +3,23 @@ from django.http import QueryDict
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from user.models import UserProfile
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('id', 'login', 'email', 'password', 'first_name', 'second_name')
+        fields = (
+            "login",
+            "email",
+            "password",
+            "first_name",
+            "second_name",
+            "telegram_login",
+        )
         extra_kwargs = {
-            'password': {'write_only': True},
+            "password": {"write_only": True},
         }
-
-    def create(self, validated_data):
-        return UserProfile.objects.create(**validated_data)
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = '__all__'
 
 
 class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
