@@ -20,6 +20,9 @@ class RegisterApi(generics.GenericAPIView):
         return self.serializer_class
 
     def post(self, request, *args, **kwargs) -> Response:
+        """
+        Регистрирует пользователя
+        """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

@@ -17,6 +17,9 @@ class CreateBrowserInstance(generics.GenericAPIView):
     serializer_class = BrowserInstanceSerializer
 
     def post(self, request, *args, **kwargs) -> Response:
+        """
+        Создает новый browser
+        """
         serializer = self.create_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         instance_browser: InstanceBrowser = serializer.save()
@@ -58,6 +61,10 @@ class UpdateBrowserInstance(generics.UpdateAPIView):
         return data
 
     def post(self, request, browser_uuid: UUID, *args, **kwargs) -> Response:
+        """
+        Возвращает информацию о browser оп его uuid
+        """
+
         serializer = self.update_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         update_data = serializer.validated_data
@@ -83,6 +90,10 @@ class GetBrowserInstance(generics.GenericAPIView):
     serializer_class = BrowserInstanceSerializer
 
     def get(self, request, browser_uuid: UUID) -> Response:
+        """
+        Возвращает информацию о browser оп его uuid
+        """
+
         response = {}
 
         try:
@@ -102,6 +113,10 @@ class GetAllBrowserInstance(generics.GenericAPIView):
     serializer_class = BrowserInstanceSerializer
 
     def get(self, request) -> Response:
+        """
+        Возвращает все browser доступные пользователю
+        """
+
         response = {}
 
         try:
@@ -121,24 +136,6 @@ class GetAllBrowserInstance(generics.GenericAPIView):
         return Response(**response)
 
 
-# class MoveBrowserInstance(generics.GenericAPIView):
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = BrowserInstanceSerializer
-#
-#     def post(self, request, browser_uuid: UUID, folder_uuid: UUID, *args, **kwargs) -> Response:
-#         # TODO: Move to PUT
-#         response = {}
-#
-#         try:
-#             InstanceBrowser.objects.filter(id=browser_uuid).update(folder_id=folder_uuid)
-#             response["data"] = {"message", "Browser is successfully moved"}
-#             response["status"] = status.HTTP_200_OK
-#         except Exception:
-#             response["status"] = status.HTTP_400_BAD_REQUEST
-#
-#         return Response(**response)
-
-
 @api_view(["PUT"])
 @permission_classes(
     [
@@ -146,6 +143,11 @@ class GetAllBrowserInstance(generics.GenericAPIView):
     ]
 )
 def move_browser_instance(request, browser_uuid: UUID, folder_uuid: UUID):
+    """
+    /browser/move/<browser_uuid>/<folder_uuid>
+
+    Перемещает или добавляет browser в folder по folder_uuid
+    """
     response = {}
 
     try:

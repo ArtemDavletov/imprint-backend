@@ -61,6 +61,9 @@ class FolderCreateView(generics.GenericAPIView):
     serializer_class = FolderSerializer
 
     def post(self, request, *args, **kwargs) -> Response:
+        """
+        Создает folder
+        """
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         folder = Folder.objects.create(**serializer.validated_data)
@@ -73,6 +76,12 @@ class ShareFolderPermissionView(generics.GenericAPIView):
     serializer_class = ShareFolderSerializer
 
     def post(self, request, folder_uuid: UUID) -> Response:
+        """
+        Поделиться folder по folder_uuid
+        Принимает права (rule) из списка ['VIEW', 'EDIT', 'ADMIN']
+        Возвращает токен, по которому можно добавить folder
+        """
+
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         share_data = serializer.validated_data
@@ -90,6 +99,11 @@ class ShareFolderPermissionView(generics.GenericAPIView):
     ]
 )
 def folder_view(request, folder_uuid: UUID) -> Response:
+    """
+    Чтение folder по folder_uuid
+    Изменение folder по folder_uuid
+    """
+
     response = {}
 
     if request.method == "GET":
@@ -118,8 +132,12 @@ def folder_view(request, folder_uuid: UUID) -> Response:
     ]
 )
 def add_folder_view(request, shared_token: str) -> Response:
+    """
+    Добавление поделившимся folder по shared_token
+    """
+
     def add_browser_to_relation(
-        browser_id, user, rule
+            browser_id, user, rule
     ) -> UserProfileInstanceBrowserRelation:
         return UserProfileInstanceBrowserRelation.objects.create(
             user_id=user.id, browser_id=browser_id, is_creator=False, rule_type=rule
