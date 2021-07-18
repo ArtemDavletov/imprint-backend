@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "browser",
     "corsheaders",
-    "drf_yasg"
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -86,8 +86,8 @@ DATABASES = {
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        'HOST': 'pgdb',
-        # "HOST": "localhost",
+        # 'HOST': 'pgdb',
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }

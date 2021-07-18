@@ -1,10 +1,16 @@
 from uuid import UUID
 
-from browser.models import (BrowserEngine, BrowserType, InstanceBrowser,
-                            UserProfileInstanceBrowserRelation)
-from browser.serializers import (BrowserInstanceSerializer,
-                                 CreateBrowserInstanceSerializer,
-                                 UpdateBrowserInstanceSerializer)
+from browser.models import (
+    BrowserEngine,
+    BrowserType,
+    InstanceBrowser,
+    UserProfileInstanceBrowserRelation,
+)
+from browser.serializers import (
+    BrowserInstanceSerializer,
+    CreateBrowserInstanceSerializer,
+    UpdateBrowserInstanceSerializer,
+)
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated

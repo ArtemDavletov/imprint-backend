@@ -20,7 +20,7 @@ def user_view(self, request: Request, user_id: UUID) -> Response:
     Возвращает информацию о пользователе
     Изменяет информацию о пользователе
     """
-    if request.method == 'GET':
+    if request.method == "GET":
         try:
             return Response(
                 data=UserSerializer(UserProfile.objects.get(id=user_id)).data
@@ -30,7 +30,7 @@ def user_view(self, request: Request, user_id: UUID) -> Response:
                 data={"message": "No such user"}, status=status.HTTP_404_NOT_FOUND
             )
 
-    elif request.method == 'PUT':
+    elif request.method == "PUT":
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         UserProfile.objects.filter(id=user_id).update(**serializer.validated_data)
