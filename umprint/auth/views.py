@@ -1,38 +1,45 @@
-import json
-
-from django.http import QueryDict
-from rest_framework import status
+from auth.serializers import AuthTokenObtainPairSerializer, RegisterSerializer
+from django.db import IntegrityError
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from user.models import UserProfile
+from user.serializers import UserSerializer
 
 
-class AuthTokenObtainPairSerializer(TokenObtainPairSerializer):
-    def validate(self, attrs):
+def extract_detail_from_integrity_error(error: IntegrityError):
+    try:
+        return error.args[0].split("\n")[1]
+    except (AttributeError, IndexError):
+        return error
 
-        request = self.context["request"]
 
-        request_data: QueryDict = request.data
-        username: str = request_data.get("username")
-        password: str = request_data.get("password")
+class RegisterApi(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
 
-        user = UserProfile.objects.get(login=username)
+    def get_serializer_class(self):
+        return self.serializer_class
 
-        if user is None:
-            user = UserProfile.objects.get(email=username)
+    def post(self, request, *args, **kwargs) -> Response:
+        """
+        Регистрирует пользователя
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            if user is None:
-                return super().validate(attrs=attrs)
+        user = serializer.save()
 
-        if user.password == password:
-            refresh: RefreshToken = super().get_token(user)
-
-            return dict(refresh=str(refresh), access=str(refresh.access_token))
-
-        return super().validate(attrs=attrs)
+        return Response(
+            data={
+                "user": UserSerializer(
+                    user, context=self.get_serializer_context()
+                ).data,
+                "message": "User Created Successfully. Now perform Login to get your token",
+            }
+        )
 
 
 class AuthTokenObtainPairView(TokenObtainPairView):
     serializer_class = AuthTokenObtainPairSerializer
+
+    def get_serializer_class(self):
+        return self.serializer_class
