@@ -4,6 +4,7 @@ from browser.views import (
     GetBrowserInstance,
     UpdateBrowserInstance,
     move_browser_instance,
+    GetBrowserInstanceConfig,
 )
 from django.urls import path
 
@@ -21,4 +22,5 @@ urlpatterns = [
         move_browser_instance,
         name="move browser to another folder",
     ),
+    path(r"config/<str:browser_uuid>", GetBrowserInstanceConfig.as_view(), name="get browser config"),
 ]

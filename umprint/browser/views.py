@@ -10,11 +10,14 @@ from browser.serializers import (
     BrowserInstanceSerializer,
     CreateBrowserInstanceSerializer,
     UpdateBrowserInstanceSerializer,
+    BrowserInstanceConfigSerializer,
 )
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from browser.config_models import ConfigModel
 
 
 class CreateBrowserInstance(generics.GenericAPIView):
@@ -136,6 +139,28 @@ class GetAllBrowserInstance(generics.GenericAPIView):
                     all_relations,
                 )
             )
+        except InstanceBrowser.DoesNotExist:
+            response["status"] = status.HTTP_404_NOT_FOUND
+
+        return Response(**response)
+
+
+class GetBrowserInstanceConfig(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BrowserInstanceConfigSerializer
+
+    def get(self, request, browser_uuid: UUID) -> Response:
+        """
+        Возвращает информацию о browser оп его uuid
+        """
+
+        response = {}
+
+        try:
+            instance_browser = InstanceBrowser.objects.get(id=browser_uuid)
+            config = ConfigModel.objects.get(id=instance_browser.config_id)
+
+            response["data"] = instance_browser.data
         except InstanceBrowser.DoesNotExist:
             response["status"] = status.HTTP_404_NOT_FOUND
 

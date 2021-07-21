@@ -3,6 +3,8 @@ import uuid
 from django.db import models
 from user.models import UserProfile
 
+from browser.config_models import ConfigModel
+
 
 class BrowserEngine(models.Model):
     class BrowserEngineChoices(models.TextChoices):
@@ -52,6 +54,10 @@ class InstanceBrowser(models.Model):
     )
     browser_engine = models.ForeignKey(
         BrowserEngine, on_delete=models.CASCADE, related_name="browser_engine"
+    )
+
+    config = models.ForeignKey(
+        ConfigModel, on_delete=models.CASCADE, related_name="config", blank=False, null=True, default=None
     )
 
     folder = models.ForeignKey(

@@ -34,6 +34,8 @@ class BrowserInstanceSerializer(serializers.Serializer):
     folder_name = serializers.ReadOnlyField()
     folder_description = serializers.ReadOnlyField()
 
+    # Config fields
+
     class Meta:
         model = InstanceBrowser
 
@@ -45,3 +47,7 @@ class UpdateBrowserInstanceSerializer(CreateBrowserInstanceSerializer):
     browser_engine = serializers.CharField(required=False)
 
     folder_id = serializers.UUIDField(required=False)
+
+
+class BrowserInstanceConfigSerializer(serializers.Serializer):
+    ...
