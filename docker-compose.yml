@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     django:
-        build: .
+        build: imprint-backend
         container_name: imprint
         restart: always
         command: python umprint/manage.py runserver 0.0.0.0:5000

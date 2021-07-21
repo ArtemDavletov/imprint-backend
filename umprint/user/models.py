@@ -1,9 +1,10 @@
 import uuid
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser
+from django.contrib.auth.models import User, UserManager
 
-
-class UserProfile(models.Model):
+class UserProfile(AbstractBaseUser):
     REQUIRED_FIELDS = ("id", "telegram_login", "email")
     USERNAME_FIELD = "login"
     is_anonymous = False
@@ -23,6 +24,6 @@ class UserProfile(models.Model):
     email = models.EmailField(
         max_length=20, blank=True, unique=True, verbose_name="Почта"
     )
-
+    objects = UserManager()
     def __unicode__(self):
         return self.login

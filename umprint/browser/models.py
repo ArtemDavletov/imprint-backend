@@ -4,6 +4,68 @@ from django.db import models
 from user.models import UserProfile
 
 
+# Configs list
+class UserAgent(models.Model):
+    value = models.CharField(verbose_name='User-Agent', blank=False, max_length=3000,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class ScreenResolution(models.Model):
+    weight = models.PositiveIntegerField(verbose_name='Weight', blank=False, default=0)
+    height = models.PositiveIntegerField(verbose_name='Height', blank=False, default=0)
+    def __unicode__(self):
+        return self.value
+
+class Languages(models.Model):
+    value = models.CharField(verbose_name='Language Code', blank=False, max_length=1000,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class Platform(models.Model):
+    value = models.CharField(verbose_name='Platform', blank=False, max_length=200,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class HardwareConcurrency(models.Model):
+    value = models.PositiveIntegerField(verbose_name='hardwareConcurrency', blank=False, default=0,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class Memory(models.Model):
+    value = models.DecimalField(verbose_name='Memory', max_digits=5, decimal_places=2, blank=False,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class DoNotTrack(models.Model):
+    value = models.NullBooleanField(verbose_name='DoNotTrack', blank=False,  unique=True)
+    def __unicode__(self):
+        return self.value
+
+class FontPrint(models.Model):
+    value = models.CharField(verbose_name='FontPrint name', blank=False, max_length=1000, unique=True)
+    def __unicode__(self):
+        return self.value
+
+class ColorDepth(models.Model):
+    value = models.PositiveIntegerField(verbose_name='ColorDepth', blank=False, default=0, unique=True)
+    def __unicode__(self):
+        return self.value
+        
+# Random Choice Configurations
+class Configurations(models.Model):
+    useragent           = models.ManyToManyField('browser.UserAgent', blank=False, verbose_name='User-Agent')
+    screenresolution    = models.ManyToManyField('browser.ScreenResolution', blank=False, verbose_name='Screen-Resoloution')
+    languages           = models.ManyToManyField('browser.Languages', blank=False, verbose_name='Languages')
+    platform            = models.ManyToManyField('browser.Platform', blank=False, verbose_name='Platform')
+    hardwareconcurrency = models.ManyToManyField('browser.HardwareConcurrency', blank=False, verbose_name='HardwareConcurrency')
+    memory              = models.ManyToManyField('browser.Memory', blank=False, verbose_name='Platform')
+    donottrack          = models.ManyToManyField('browser.DoNotTrack', blank=False, verbose_name='Do Not Track')
+    fontprint           = models.ManyToManyField('browser.FontPrint', blank=False, verbose_name='Font Prints')
+    colordeepth         = models.ManyToManyField('browser.ColorDepth', blank=False, verbose_name='Color Deepths')
+    def __unicode__(self):
+        return self.value
+
+
 class BrowserEngine(models.Model):
     class BrowserEngineChoices(models.TextChoices):
         CHROMIUM = "CHROMIUM"
