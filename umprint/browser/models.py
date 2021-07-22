@@ -12,6 +12,7 @@ class UserAgent(models.Model):
 class ScreenResolution(models.Model):
     width = models.PositiveIntegerField(verbose_name='width', blank=False, default=0)
     height = models.PositiveIntegerField(verbose_name='Height', blank=False, default=0)
+    landscape = models.NullBooleanField(verbose_name='Land Scape', default=None)
     def __unicode__(self):
         return self.value
 
@@ -25,20 +26,6 @@ class Platform(models.Model):
     def __unicode__(self):
         return self.value
 
-class HardwareConcurrency(models.Model):
-    value = models.PositiveIntegerField(verbose_name='hardwareConcurrency', blank=False, default=0,  unique=True)
-    def __unicode__(self):
-        return self.value
-
-class Memory(models.Model):
-    value = models.DecimalField(verbose_name='Memory', max_digits=5, decimal_places=2, blank=False,  unique=True)
-    def __unicode__(self):
-        return self.value
-
-class DoNotTrack(models.Model):
-    value = models.NullBooleanField(verbose_name='DoNotTrack', blank=False,  unique=True)
-    def __unicode__(self):
-        return self.value
 
 class FontPrint(models.Model):
     value = models.CharField(verbose_name='FontPrint name', blank=False, max_length=1000, unique=True)
@@ -62,9 +49,9 @@ class Configurations(models.Model):
     screenresolution    = models.ManyToManyField('browser.ScreenResolution', blank=False, verbose_name='Screen-Resoloution')
     languages           = models.ManyToManyField('browser.Languages', blank=False, verbose_name='Languages')
     platform            = models.ManyToManyField('browser.Platform', blank=False, verbose_name='Platform')
-    hardwareconcurrency = models.ManyToManyField('browser.HardwareConcurrency', blank=False, verbose_name='HardwareConcurrency')
-    memory              = models.ManyToManyField('browser.Memory', blank=False, verbose_name='Platform')
-    donottrack          = models.ManyToManyField('browser.DoNotTrack', blank=False, verbose_name='Do Not Track')
+    hardwareconcurrency = models.CharField(blank=False, verbose_name='HardwareConcurrency', max_length=200)
+    memory              = models.CharField(blank=False, verbose_name="memory", max_length=20)
+    donottrack          = models.NullBooleanField(default=None, blank=False, verbose_name='Do Not Track')
     fontprint           = models.ManyToManyField('browser.FontPrint', blank=False, verbose_name='Font Prints')
     colordeepth         = models.ManyToManyField('browser.ColorDepth', blank=False, verbose_name='Color Deepths')
     def __unicode__(self):
@@ -129,7 +116,7 @@ class InstanceBrowser(models.Model):
     platform            = models.CharField(blank=True, verbose_name='Platform', max_length=300)
     hardwareconcurrency = models.CharField(blank=True, verbose_name='HardwareConcurrency', max_length=200)
     memory              = models.CharField(blank=True, verbose_name='Memory', max_length=20)
-    donottrack          = models.CharField(blank=True, verbose_name='Do Not Track', max_length=20)
+    donottrack          = models.NullBooleanField(blank=True, default=None, verbose_name='Do Not Track', max_length=20)
     fontprint           = models.CharField(blank=True, verbose_name='Font Prints', max_length=5000)
     colordeepth         = models.CharField(blank=True, verbose_name='Color Deepths', max_length=20)
     folder              = models.ForeignKey(
