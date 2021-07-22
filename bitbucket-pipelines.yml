@@ -1,0 +1,8 @@
+image: python:3.8
+
+pipelines:
+  default:
+    - step:
+        name: Deploy application on server
+        script:
+          - cat ./deploy.sh | ssh -T root@45.147.178.156
