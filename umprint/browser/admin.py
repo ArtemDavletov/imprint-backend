@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from browser.models import *
+
 admin.site.register(UserAgent)
 admin.site.register(ScreenResolution)
 admin.site.register(Languages)

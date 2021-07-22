@@ -4,8 +4,7 @@ from typing import List
 from uuid import UUID
 
 import jwt
-from browser.models import (Folder, InstanceBrowser,
-                            UserProfileInstanceBrowserRelation)
+from browser.models import Folder, InstanceBrowser, UserProfileInstanceBrowserRelation
 from browser.serializers import BrowserInstanceSerializer
 from folder.serializers import FolderSerializer, ShareFolderSerializer
 from rest_framework import generics, status
@@ -137,7 +136,7 @@ def add_folder_view(request, shared_token: str) -> Response:
     """
 
     def add_browser_to_relation(
-            browser_id, user, rule
+        browser_id, user, rule
     ) -> UserProfileInstanceBrowserRelation:
         return UserProfileInstanceBrowserRelation.objects.create(
             user_id=user.id, browser_id=browser_id, is_creator=False, rule_type=rule

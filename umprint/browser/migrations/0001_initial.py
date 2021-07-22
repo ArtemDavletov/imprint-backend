@@ -9,130 +9,382 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BrowserEngine',
+            name="BrowserEngine",
             fields=[
-                ('id', models.AutoField(editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(choices=[('CHROMIUM', 'Chromium'), ('FIREFOX', 'Firefox')], default='CHROMIUM', max_length=10)),
+                (
+                    "id",
+                    models.AutoField(editable=False, primary_key=True, serialize=False),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        choices=[("CHROMIUM", "Chromium"), ("FIREFOX", "Firefox")],
+                        default="CHROMIUM",
+                        max_length=10,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Движки браузера (BrowserEngine)',
-                'verbose_name_plural': 'Движки браузера (BrowserEngine)',
+                "verbose_name": "Движки браузера (BrowserEngine)",
+                "verbose_name_plural": "Движки браузера (BrowserEngine)",
             },
         ),
         migrations.CreateModel(
-            name='BrowserType',
+            name="BrowserType",
             fields=[
-                ('id', models.AutoField(editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(default='Chrome', max_length=300, verbose_name='Заголовок')),
+                (
+                    "id",
+                    models.AutoField(editable=False, primary_key=True, serialize=False),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        default="Chrome", max_length=300, verbose_name="Заголовок"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ColorDepth',
+            name="ColorDepth",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.PositiveIntegerField(default=0, unique=True, verbose_name='ColorDepth')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.PositiveIntegerField(
+                        default=0, unique=True, verbose_name="ColorDepth"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Configurations',
+            name="Configurations",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='DoNotTrack',
+            name="DoNotTrack",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.NullBooleanField(unique=True, verbose_name='DoNotTrack')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.NullBooleanField(unique=True, verbose_name="DoNotTrack"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Folder',
+            name="Folder",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(blank=True, max_length=200, verbose_name='Имя')),
-                ('description', models.TextField(blank=True, max_length=500, verbose_name='Описание')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(blank=True, max_length=200, verbose_name="Имя"),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, max_length=500, verbose_name="Описание"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='FontPrint',
+            name="FontPrint",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.CharField(max_length=1000, unique=True, verbose_name='FontPrint name')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.CharField(
+                        max_length=1000, unique=True, verbose_name="FontPrint name"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='HardwareConcurrency',
+            name="HardwareConcurrency",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.PositiveIntegerField(default=0, unique=True, verbose_name='hardwareConcurrency')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.PositiveIntegerField(
+                        default=0, unique=True, verbose_name="hardwareConcurrency"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='InstanceBrowser',
+            name="InstanceBrowser",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('name', models.CharField(blank=True, default='Browser name', max_length=200, verbose_name='Имя')),
-                ('description', models.TextField(blank=True, max_length=500, verbose_name='Описание')),
-                ('useragent', models.CharField(blank=True, max_length=3000, verbose_name='User-Agent')),
-                ('screenresolution', models.CharField(blank=True, max_length=200, verbose_name='Screen-Resoloution')),
-                ('languages', models.CharField(blank=True, max_length=1000, verbose_name='Languages')),
-                ('platform', models.CharField(blank=True, max_length=300, verbose_name='Platform')),
-                ('hardwareconcurrency', models.CharField(blank=True, max_length=200, verbose_name='HardwareConcurrency')),
-                ('memory', models.CharField(blank=True, max_length=20, verbose_name='Memory')),
-                ('donottrack', models.CharField(blank=True, max_length=20, verbose_name='Do Not Track')),
-                ('fontprint', models.CharField(blank=True, max_length=5000, verbose_name='Font Prints')),
-                ('colordeepth', models.CharField(blank=True, max_length=20, verbose_name='Color Deepths')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        blank=True,
+                        default="Browser name",
+                        max_length=200,
+                        verbose_name="Имя",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, max_length=500, verbose_name="Описание"
+                    ),
+                ),
+                (
+                    "useragent",
+                    models.CharField(
+                        blank=True, max_length=3000, verbose_name="User-Agent"
+                    ),
+                ),
+                (
+                    "screenresolution",
+                    models.CharField(
+                        blank=True, max_length=200, verbose_name="Screen-Resoloution"
+                    ),
+                ),
+                (
+                    "languages",
+                    models.CharField(
+                        blank=True, max_length=1000, verbose_name="Languages"
+                    ),
+                ),
+                (
+                    "platform",
+                    models.CharField(
+                        blank=True, max_length=300, verbose_name="Platform"
+                    ),
+                ),
+                (
+                    "hardwareconcurrency",
+                    models.CharField(
+                        blank=True, max_length=200, verbose_name="HardwareConcurrency"
+                    ),
+                ),
+                (
+                    "memory",
+                    models.CharField(blank=True, max_length=20, verbose_name="Memory"),
+                ),
+                (
+                    "donottrack",
+                    models.CharField(
+                        blank=True, max_length=20, verbose_name="Do Not Track"
+                    ),
+                ),
+                (
+                    "fontprint",
+                    models.CharField(
+                        blank=True, max_length=5000, verbose_name="Font Prints"
+                    ),
+                ),
+                (
+                    "colordeepth",
+                    models.CharField(
+                        blank=True, max_length=20, verbose_name="Color Deepths"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Languages',
+            name="Languages",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.CharField(max_length=1000, unique=True, verbose_name='Language Code')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.CharField(
+                        max_length=1000, unique=True, verbose_name="Language Code"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Memory',
+            name="Memory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.DecimalField(decimal_places=2, max_digits=5, unique=True, verbose_name='Memory')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=5,
+                        unique=True,
+                        verbose_name="Memory",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Platform',
+            name="Platform",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.CharField(max_length=200, unique=True, verbose_name='Platform')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.CharField(
+                        max_length=200, unique=True, verbose_name="Platform"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ScreenResolution',
+            name="ScreenResolution",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('width', models.PositiveIntegerField(default=0, verbose_name='width')),
-                ('height', models.PositiveIntegerField(default=0, verbose_name='Height')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("width", models.PositiveIntegerField(default=0, verbose_name="width")),
+                (
+                    "height",
+                    models.PositiveIntegerField(default=0, verbose_name="Height"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='UserAgent',
+            name="UserAgent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.CharField(max_length=3000, unique=True, verbose_name='User-Agent')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "value",
+                    models.CharField(
+                        max_length=3000, unique=True, verbose_name="User-Agent"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='UserProfileInstanceBrowserRelation',
+            name="UserProfileInstanceBrowserRelation",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('is_creator', models.BooleanField(blank=True, max_length=20, verbose_name='Является создателем')),
-                ('rule_type', models.CharField(choices=[('VIEW', 'View'), ('EDIT', 'Edit'), ('ADMIN', 'Admin')], default='VIEW', max_length=10)),
-                ('browser', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='browser', to='browser.instancebrowser')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "is_creator",
+                    models.BooleanField(
+                        blank=True, max_length=20, verbose_name="Является создателем"
+                    ),
+                ),
+                (
+                    "rule_type",
+                    models.CharField(
+                        choices=[
+                            ("VIEW", "View"),
+                            ("EDIT", "Edit"),
+                            ("ADMIN", "Admin"),
+                        ],
+                        default="VIEW",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "browser",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="browser",
+                        to="browser.instancebrowser",
+                    ),
+                ),
             ],
         ),
     ]

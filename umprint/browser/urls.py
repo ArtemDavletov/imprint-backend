@@ -1,6 +1,10 @@
-from browser.views import (CreateBrowserInstance, GetAllBrowserInstance,
-                           GetBrowserInstance, UpdateBrowserInstance,
-                           move_browser_instance)
+from browser.views import (
+    CreateBrowserInstance,
+    GetAllBrowserInstance,
+    GetBrowserInstance,
+    UpdateBrowserInstance,
+    move_browser_instance,
+)
 from django.urls import path
 
 urlpatterns = [

@@ -1,6 +1,10 @@
 from django.urls import path
-from folder.views import (FolderCreateView, ShareFolderPermissionView,
-                          add_folder_view, folder_view)
+from folder.views import (
+    FolderCreateView,
+    ShareFolderPermissionView,
+    add_folder_view,
+    folder_view,
+)
 
 urlpatterns = [
     path(r"<str:folder_uuid>", folder_view, name="get folder"),  # GET get folder

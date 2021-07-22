@@ -11,83 +11,123 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('browser', '0001_initial'),
+        ("browser", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofileinstancebrowserrelation',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL),
+            model_name="userprofileinstancebrowserrelation",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='instancebrowser',
-            name='browser_engine',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='browser_instance_browser_engine', to='browser.browserengine', verbose_name='Тип движка браузера'),
+            model_name="instancebrowser",
+            name="browser_engine",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="browser_instance_browser_engine",
+                to="browser.browserengine",
+                verbose_name="Тип движка браузера",
+            ),
         ),
         migrations.AddField(
-            model_name='instancebrowser',
-            name='browser_type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='browser_instance_browser_type', to='browser.browsertype', verbose_name='Тип браузера'),
+            model_name="instancebrowser",
+            name="browser_type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="browser_instance_browser_type",
+                to="browser.browsertype",
+                verbose_name="Тип браузера",
+            ),
         ),
         migrations.AddField(
-            model_name='instancebrowser',
-            name='folder',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='browser.folder', verbose_name='Название папки'),
+            model_name="instancebrowser",
+            name="folder",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="browser.folder",
+                verbose_name="Название папки",
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='browser_engine',
-            field=models.ManyToManyField(related_name='browser_engine', to='browser.BrowserEngine'),
+            model_name="configurations",
+            name="browser_engine",
+            field=models.ManyToManyField(
+                related_name="browser_engine", to="browser.BrowserEngine"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='browser_type',
-            field=models.ManyToManyField(related_name='browser_type', to='browser.BrowserType'),
+            model_name="configurations",
+            name="browser_type",
+            field=models.ManyToManyField(
+                related_name="browser_type", to="browser.BrowserType"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='colordeepth',
-            field=models.ManyToManyField(to='browser.ColorDepth', verbose_name='Color Deepths'),
+            model_name="configurations",
+            name="colordeepth",
+            field=models.ManyToManyField(
+                to="browser.ColorDepth", verbose_name="Color Deepths"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='donottrack',
-            field=models.ManyToManyField(to='browser.DoNotTrack', verbose_name='Do Not Track'),
+            model_name="configurations",
+            name="donottrack",
+            field=models.ManyToManyField(
+                to="browser.DoNotTrack", verbose_name="Do Not Track"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='fontprint',
-            field=models.ManyToManyField(to='browser.FontPrint', verbose_name='Font Prints'),
+            model_name="configurations",
+            name="fontprint",
+            field=models.ManyToManyField(
+                to="browser.FontPrint", verbose_name="Font Prints"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='hardwareconcurrency',
-            field=models.ManyToManyField(to='browser.HardwareConcurrency', verbose_name='HardwareConcurrency'),
+            model_name="configurations",
+            name="hardwareconcurrency",
+            field=models.ManyToManyField(
+                to="browser.HardwareConcurrency", verbose_name="HardwareConcurrency"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='languages',
-            field=models.ManyToManyField(to='browser.Languages', verbose_name='Languages'),
+            model_name="configurations",
+            name="languages",
+            field=models.ManyToManyField(
+                to="browser.Languages", verbose_name="Languages"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='memory',
-            field=models.ManyToManyField(to='browser.Memory', verbose_name='Platform'),
+            model_name="configurations",
+            name="memory",
+            field=models.ManyToManyField(to="browser.Memory", verbose_name="Platform"),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='platform',
-            field=models.ManyToManyField(to='browser.Platform', verbose_name='Platform'),
+            model_name="configurations",
+            name="platform",
+            field=models.ManyToManyField(
+                to="browser.Platform", verbose_name="Platform"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='screenresolution',
-            field=models.ManyToManyField(to='browser.ScreenResolution', verbose_name='Screen-Resoloution'),
+            model_name="configurations",
+            name="screenresolution",
+            field=models.ManyToManyField(
+                to="browser.ScreenResolution", verbose_name="Screen-Resoloution"
+            ),
         ),
         migrations.AddField(
-            model_name='configurations',
-            name='useragent',
-            field=models.ManyToManyField(to='browser.UserAgent', verbose_name='User-Agent'),
+            model_name="configurations",
+            name="useragent",
+            field=models.ManyToManyField(
+                to="browser.UserAgent", verbose_name="User-Agent"
+            ),
         ),
     ]
